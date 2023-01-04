@@ -1,0 +1,91 @@
+def custom_map(function, *iterables):
+    res = []
+    if len(iterables) == 1:
+        iterables = iterables[0]
+    for iterable in iterables:
+        exec_res = function(iterable)
+        res.append(exec_res)
+
+    return res
+
+r = custom_map(str,(17,23))
+print(r)
+assert custom_map(str,(17,23))==["17","23"], f"ошибка в пунктуации или функции"
+
+
+
+//  print"hallo"
+
+
+# ,,,,,,,,,,,,,,,,,,,
+# sum2 = lambda x, y: x + y
+
+# def custom_map(function, *iterables):
+#     res = []
+#     if len(iterables) == 1:
+#         iterables = iterables[0]
+#     else:
+#         iterables = list(zip(*iterables))
+#     for iterable in iterables:
+#         if function.code.co_argcount not in [2, 3]:
+#             exec_res = function(iterable)
+#             res.append(exec_res)
+#         elif function.code.co_argcount == 2:
+#             exec_res = function(iterable[0], iterable[1])
+#             res.append(exec_res)
+#         elif function.code.co_argcount == 3:
+#             exec_res = function(iterable[0], iterable[1], iterable[2])
+#             res.append(exec_res)
+
+#     return res
+
+# r = custom_map(sum2,[1,2,3],[4,5,6])
+# print(r)
+
+# ///////
+def custom_map(function, *iterables):
+    res = []
+    if len(iterables) == 1:
+        pk = False
+        iterables = iterables[0]
+    else:
+        pk = True
+        iterables = list(zip(*iterables))
+        iterables.sort(key=len)
+
+    for iterable in iterables:
+        exec_res = function(*iterable) if pk else function(iterable)
+        res.append(exec_res)
+    return res
+
+sum2 = lambda x, y: x + y
+sum3 = lambda x, y, z: x + y + z
+print(custom_map(sum, [[1, 2, 3], [4, 5]]))
+print(custom_map(len, [[], (2, 4), [1, 3, 5, 7]]))
+print(custom_map(str, (17, 23)))
+print(custom_map(sum2, [1, 2, 3], [3, 5, 0]))
+print(custom_map(sum2, [1, 2, 3, 4], (3, 4, 4, 4, 4, 4, 44)))
+print(custom_map(sum3, [1, 1, 1], [4, 5, 6], [0, 5, 2, 1]))
+# ////////
+def custom_zip(*sequences, full=False, default=None):
+    sequences = list(sequences)
+    if full:
+        sequences.sort(key=len, reverse=True)
+    else:
+        sequences.sort(key=len)
+    sq_count = len(sequences)
+    sq_start = sequences[0]
+    res = []
+    for cnt, item in enumerate(sq_start):
+        tup = ()
+        for i in range(0,sq_count):
+            if full and len(sequences[i]) < cnt+1:
+                tup = tup + (default,)
+            else:
+                tup = tup + (sequences[i][cnt],)
+        res.append(tup)
+    return res
+
+print(custom_zip([1,2,3], [4,5,6,7], [8,9]))
+print(custom_zip([1, 2, 3, 4, 5], [9, 8, 7]))
+print(custom_zip([1, 2, 3, 4, 5], [9, 8, 7], full=True, default="Q"))
