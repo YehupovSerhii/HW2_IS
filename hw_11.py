@@ -11,7 +11,7 @@ import random
 def get_random_string(length: int) -> str:
     small_letters = list(map(chr, range(97, 123)))
     big_letters = list(map(lambda char: char.upper(), small_letters))
-    digits = list(range(0, 9))
+    digits = list(range(0, 10))
     total = small_letters + big_letters + digits
     # print(type(total))
     # n=int(input())
