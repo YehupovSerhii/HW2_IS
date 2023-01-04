@@ -12,25 +12,28 @@
 #   pass
 # """
 
+
 def custom_zip(*sequences, full=False, default=None):
     sequences = list(sequences)
     if full:
-        sequences.sort(key=len, reverse=True)
+        sq_start = max(sequences, key=len)
     else:
-        sequences.sort(key=len)
+        sq_start = min(sequences, key=len)
+
     sq_count = len(sequences)
-    sq_start = sequences[0]
+
     res = []
     for cnt, item in enumerate(sq_start):
         tup = ()
-        for i in range(0,sq_count):
-            if full and len(sequences[i]) < cnt+1:
+        for i in range(0, sq_count):
+            if full and len(sequences[i]) < cnt + 1:
                 tup = tup + (default,)
             else:
                 tup = tup + (sequences[i][cnt],)
         res.append(tup)
     return res
 
-print(custom_zip([1,2,3], [4,5,6,7], [8,9]))
+
+print(custom_zip([1, 2, 3], [4, 5, 6, 7], [8, 9]))
 print(custom_zip([1, 2, 3, 4, 5], [9, 8, 7]))
 print(custom_zip([1, 2, 3, 4, 5], [9, 8, 7], full=True, default="Q"))
